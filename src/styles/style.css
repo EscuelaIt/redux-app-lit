@@ -1,3 +1,5 @@
 body {
   --dile-card-background-color: #ffd;
+  --dile-input-border-color: #000;
+  --dile-input-border-width: 2px;
 }

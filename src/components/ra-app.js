@@ -5,6 +5,8 @@ import { store } from '../redux/store';
 import { stopLoading, startLoading, positiveFeedback, negativeFeedback } from '../redux/app-slice';
 import './utils/ra-loading';
 import './utils/ra-feedback';
+import './user/ra-login';
+import './user/ra-register';
 
 export class RaApp extends LitElement {
   static styles = [
@@ -20,6 +22,9 @@ export class RaApp extends LitElement {
       main {
         padding: 1.5rem;
       }
+      hr { 
+        margin: 1rem 0;
+      }
     `
   ];
 
@@ -32,9 +37,9 @@ export class RaApp extends LitElement {
         <span slot="actions">Logout</span>
       </dile-nav>
       <main>
-        <dile-card title="hola">
-          <p>hola soy ra-app</p>      
-        </dile-card>
+        <ra-login></ra-login>
+        <hr>
+        <ra-register></ra-register>
         <p>
           <button @click=${this.toggleSpinner}>toggle</button>
           <dile-button @click=${this.showMessage}>Mostrar feedback desde app</dile-button>
