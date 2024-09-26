@@ -14,6 +14,12 @@ export class RaLogin extends StateMixin(DileForm(LitElement)) {
     `
   ];
 
+  static get properties() {
+    return {
+      loggedIn: { type: Boolean }
+    };
+  }
+
   stateChanged(state) {
     if(state.user.loginValidationErrors) {
       this.clearErrors();
@@ -21,11 +27,21 @@ export class RaLogin extends StateMixin(DileForm(LitElement)) {
     } else {
       this.clearErrors();
     }
+    this.loggedIn = state.user.loggedIn;
   }
 
   render() {
     return html`
-    <dile-card title="Inicio de sesión">
+    ${this.loggedIn
+      ? html`<p>Ya estás logueado</p>`
+      : this.loginFormTemplate
+    }
+    `
+  }
+
+  get loginFormTemplate() {
+    return html`
+      <dile-card title="Inicio de sesión">
       <dile-input
         id="email"
         name="email"
@@ -42,9 +58,9 @@ export class RaLogin extends StateMixin(DileForm(LitElement)) {
         <dile-button @click=${this.login}>Iniciar sesión</dile-button>
       </p>
     </dile-card>
-    `;
+    `
   }
-
+    
   login() {
     const data = this.getData();
     store.dispatch(signIn(data));

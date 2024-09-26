@@ -7,6 +7,7 @@ import './utils/ra-loading';
 import './utils/ra-feedback';
 import './user/ra-login';
 import './user/ra-register';
+import './user/ra-user-menu';
 
 export class RaApp extends LitElement {
   static styles = [
@@ -34,7 +35,7 @@ export class RaApp extends LitElement {
     return html`
       <dile-nav>
         <span slot="title" class="title">Redux-auth</span>
-        <span slot="actions">Logout</span>
+        <span slot="actions"><ra-user-menu></ra-user-menu></span>
       </dile-nav>
       <main>
         <ra-login></ra-login>
