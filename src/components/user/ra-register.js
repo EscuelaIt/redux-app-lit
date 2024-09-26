@@ -17,6 +17,8 @@ export class RaRegister extends StateMixin(DileForm(LitElement)) {
     if(state.user.registerValidationErrors) {
       this.clearErrors();
       this.showErrors(state.user.registerValidationErrors)
+    } else {
+      this.clearErrors();
     }
   }
 

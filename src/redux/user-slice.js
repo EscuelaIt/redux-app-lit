@@ -8,6 +8,7 @@ export const userSlice = createSlice({
     loggedIn: false,
     userData: null,
     registerValidationErrors: null,
+    loginValidationErrors: null,
     token: null,
   },
   reducers: {
@@ -23,6 +24,9 @@ export const userSlice = createSlice({
     setRegisterValidationErrors: (state, action) => {
       state.registerValidationErrors = action.payload;
     },
+    setLoginValidationErrors: (state, action) => {
+      state.loginValidationErrors = action.payload;
+    },
     registerToken: (state, action) => {
       state.token = action.payload;
      state.registerValidationErrors = null;
@@ -30,7 +34,7 @@ export const userSlice = createSlice({
   }
 });
 
-const { setRegisterValidationErrors, registerToken } = userSlice.actions;
+const { setRegisterValidationErrors, registerToken, setLoginValidationErrors } = userSlice.actions;
 
 export const signUp = (userData) => async (dispatch) => {
   try {
@@ -52,3 +56,22 @@ export const signUp = (userData) => async (dispatch) => {
     }
   }
 } 
+
+export const signIn = (userData) => async (dispatch) => {
+  try {
+    const response = await axios.post('/api/auth/login', userData);
+    if(response.status == 200) {
+      dispatch(positiveFeedback(response.data.message));
+      dispatch(registerToken(response.data.token));
+    } else {
+      dispatch(negativeFeedback('Respuesta no esperada'));
+    }
+  } catch(error) {
+    if(error.status == 401) {
+      dispatch(negativeFeedback(error.response.data.message));
+      dispatch(setLoginValidationErrors(error.response.data.errors));
+    } else {
+      dispatch(negativeFeedback('Login no disponible'));
+    }
+  }
+}

@@ -1,8 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { DileForm } from '@dile/ui/mixins/form';
 import '@dile/ui/components/checkbox/checkbox.js';
+import { signIn } from '../../redux/user-slice';
+import { store } from '../../redux/store';
+import { StateMixin } from '../../mixins/state-mixin';
 
-export class RaLogin extends DileForm(LitElement) {
+export class RaLogin extends StateMixin(DileForm(LitElement)) {
   static styles = [
     css`
       :host {
@@ -11,6 +14,15 @@ export class RaLogin extends DileForm(LitElement) {
     `
   ];
 
+  stateChanged(state) {
+    if(state.user.loginValidationErrors) {
+      this.clearErrors();
+      this.showErrors(state.user.loginValidationErrors)
+    } else {
+      this.clearErrors();
+    }
+  }
+
   render() {
     return html`
     <dile-card title="Inicio de sesión">
@@ -18,11 +30,13 @@ export class RaLogin extends DileForm(LitElement) {
         id="email"
         name="email"
         label="Email"
+        value="m1@example.com"
       ></dile-input>
       <dile-password
         id="password"
         name="password"
         label="Clave"
+        value="1234"
       ></dile-password>
       <p>
         <dile-button @click=${this.login}>Iniciar sesión</dile-button>
@@ -33,7 +47,7 @@ export class RaLogin extends DileForm(LitElement) {
 
   login() {
     const data = this.getData();
-    console.log(data);
+    store.dispatch(signIn(data));
   }
 }
 customElements.define('ra-login', RaLogin);
