@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { StateMixin } from '../../mixins/state-mixin';
 import { store } from '../../redux/store';
-import { logout } from '../../redux/user-slice';
+import { getUser, initialized, logout, registerToken } from '../../redux/user-slice';
 
 export class RaUserMenu extends StateMixin(LitElement) {
   static styles = [
@@ -15,6 +15,17 @@ export class RaUserMenu extends StateMixin(LitElement) {
       }
     `
   ];
+
+  firstUpdated() {
+    const token = window.localStorage.getItem('token');
+    if(token) {
+      console.log('he encontrado un token en el localstorage');
+      store.dispatch(registerToken(token));
+      store.dispatch(getUser());
+    } else {
+      store.dispatch(initialized());
+    }
+  }
 
   static get properties() {
     return {
