@@ -3,6 +3,7 @@ import { DileForm } from '@dile/ui/mixins/form';
 import { store } from '../../redux/store';
 import { signUp } from '../../redux/user-slice';
 import { StateMixin } from '../../mixins/state-mixin';
+import './ra-guest';
 
 export class RaRegister extends StateMixin(DileForm(LitElement)) {
   static styles = [
@@ -13,12 +14,6 @@ export class RaRegister extends StateMixin(DileForm(LitElement)) {
     `
   ];
 
-  static get properties() {
-    return {
-      loggedIn: { type: Boolean }
-    };
-  }
-
   stateChanged(state) {
     if(state.user.registerValidationErrors) {
       this.clearErrors();
@@ -26,15 +21,13 @@ export class RaRegister extends StateMixin(DileForm(LitElement)) {
     } else {
       this.clearErrors();
     }
-    this.loggedIn = state.user.loggedIn;
   }
 
   render() {
     return html`
-    ${this.loggedIn
-      ? html`<p>Ya estás registrado</p>`
-      : this.registerFormTemplate
-    }
+      <ra-guest>
+        ${this.registerFormTemplate}
+      </ra-guest>
     `
   }
 

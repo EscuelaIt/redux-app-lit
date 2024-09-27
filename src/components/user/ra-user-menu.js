@@ -48,7 +48,7 @@ export class RaUserMenu extends StateMixin(LitElement) {
 
   get loggedInTemplate() {
     return html`
-      <a href="#" @click=${this.logout}>logout</a>
+      <a href="#" @click=${this.logout}>Logout</a>
     `
   }
 

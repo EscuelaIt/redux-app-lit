@@ -50,6 +50,7 @@ export const signUp = (userData) => async (dispatch) => {
       dispatch(positiveFeedback(response.data.message));
       dispatch(registerToken(response.data.token));
       window.localStorage.setItem('token', response.data.token);
+      dispatch(getUser());
     } else {
       dispatch(negativeFeedback('Respuesta no esperada'));
     }
@@ -97,7 +98,7 @@ export const getUser = () => async (dispatch, getState) => {
       dispatch(registerUser(response.data.data));
     }
   } catch(error) {
-    // no necesito hacer nada...
+    window.localStorage.removeItem('token');
     console.log(error);
   } finally {
     dispatch(initialized());

@@ -8,6 +8,7 @@ import './utils/ra-feedback';
 import './user/ra-login';
 import './user/ra-register';
 import './user/ra-user-menu';
+import './user/ra-authenticated';
 
 export class RaApp extends LitElement {
   static styles = [
@@ -26,6 +27,9 @@ export class RaApp extends LitElement {
       hr { 
         margin: 1rem 0;
       }
+      ra-login {
+        margin-bottom: 2rem;
+      }
     `
   ];
 
@@ -39,13 +43,16 @@ export class RaApp extends LitElement {
       </dile-nav>
       <main>
         <ra-login></ra-login>
-        <hr>
         <ra-register></ra-register>
-        <p>
-          <button @click=${this.toggleSpinner}>toggle</button>
-          <dile-button @click=${this.showMessage}>Mostrar feedback desde app</dile-button>
-          <dile-button @click=${this.showError}>Mostrar feedback negativo</dile-button>
-        </p>
+        
+        <ra-authenticated>
+          <p>Solo se verá si el usuario está autenticado</p>
+          <p>
+            <button @click=${this.toggleSpinner}>toggle</button>
+            <dile-button @click=${this.showMessage}>Mostrar feedback desde app</dile-button>
+            <dile-button @click=${this.showError}>Mostrar feedback negativo</dile-button>
+          </p>
+        </ra-authenticated>
       </main>
 
       
